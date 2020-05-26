@@ -1,4 +1,4 @@
-importScripts("js/sw-utils.js");
+//importScripts("js/sw-utils.js");
 const STATIC_CACHE = "static-v4";
 const DYNAMIC_CACHE = "dynamic-v1";
 const INMUTABLE_CACHE = "inmutable-v1";
@@ -63,14 +63,14 @@ self.addEventListener('fetch',e=>{
             console.log('No existe', e.request.url);
             return fetch(e.request).then(newResp => {
 
-                // caches.open(DYNAMIC_CACHE)
-                //     .then(cache => {
-                //         cache.put(e.request, newResp);
-                //         limpiarCache(CACHE_DYNAMIC_NAME, 50);
-                //     });
-                //
-                // return newResp.clone();
-                return guardarCacheDinamico(DYNAMIC_CACHE,e.request,newResp);
+                caches.open(DYNAMIC_CACHE)
+                    .then(cache => {
+                        cache.put(e.request, newResp);
+                        limpiarCache(CACHE_DYNAMIC_NAME, 50);
+                    });
+
+                return newResp.clone();
+               // return guardarCacheDinamico(DYNAMIC_CACHE,e.request,newResp);
             })
 
 
